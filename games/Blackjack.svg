@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xhtml="http://www.w3.org/1999/xhtml"
+     width="100%" height="100%" viewBox="0 0 1920 1080">
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <xhtml:iframe
+      srcdoc="&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta http-equiv=&quot;x-ua-compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;&gt;
+  &lt;title&gt;really cool flash game&lt;/title&gt;
+  &lt;style&gt;
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+    }
+    #flash-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: black;
+      overflow: hidden;
+    }
+    .black-box {
+      position: fixed;
+      background: black;
+      z-index: 10;
+    }
+    #box-top {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+    }
+    #box-bottom {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+    }
+    #box-left {
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+    }
+    #box-right {
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 100%;
+    }
+    ruffle-player {
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: block;
+    }
+  &lt;/style&gt;
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/@ruffle-rs/ruffle@0.2.0-nightly.2025.10.2/ruffle.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;flash-container&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;black-box&quot; id=&quot;box-top&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;black-box&quot; id=&quot;box-bottom&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;black-box&quot; id=&quot;box-left&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;black-box&quot; id=&quot;box-right&quot;&gt;&lt;/div&gt;
+  &lt;script&gt;
+    const container = document.getElementById(&quot;flash-container&quot;);
+    const boxTop = document.getElementById(&quot;box-top&quot;);
+    const boxBottom = document.getElementById(&quot;box-bottom&quot;);
+    const boxLeft = document.getElementById(&quot;box-left&quot;);
+    const boxRight = document.getElementById(&quot;box-right&quot;);
+    
+    function resizeGame() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const aspectRatio = 5.5 / 3;
+      
+      // Use 95% of available space instead of 100%
+      let width = Math.floor(windowWidth * 1);
+      let height = Math.floor(width / aspectRatio);
+      
+      if (height &gt; windowHeight * 1) {
+        height = Math.floor(windowHeight * 1);
+        width = Math.floor(height * aspectRatio);
+      }
+      
+      container.style.width = `${width}px`;
+      container.style.height = `${height}px`;
+      
+      // Calculate margins
+      const topMargin = (windowHeight - height) / 2;
+      const leftMargin = (windowWidth - width) / 2;
+      
+      // Set black box sizes
+      boxTop.style.height = `${topMargin}px`;
+      boxBottom.style.height = `${topMargin}px`;
+      boxLeft.style.width = `${leftMargin}px`;
+      boxRight.style.width = `${leftMargin}px`;
+    }
+    
+    window.addEventListener(&quot;resize&quot;, resizeGame);
+    window.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; {
+      resizeGame();
+      const ruffle = window.RufflePlayer?.newest() || window.RufflePlayer?.createPlayer();
+      if (ruffle &amp;&amp; container) {
+        const player = ruffle.createPlayer();
+        player.style.width = &quot;100%&quot;;
+        player.style.height = &quot;100%&quot;;
+        player.style.background = &quot;black&quot;;
+        container.appendChild(player);
+        player.load(&quot;$1&quot;);
+      } else {
+        container.textContent = &quot;Ruffle failed to load.&quot;; 
+      }
+    });
+  &lt;/script&gt;
+    
+    &lt;embed src=&quot;https://cdn.jsdelivr.net/gh/bubbls/UGS-file-encryption@1b4d236a0c262a78cd71ea796f519b58d870dc21/blackjack.swf&quot; width=&quot;100%&quot; height=&quot;100%&quot;&gt;
+&lt;/body&gt;
+&lt;/html&gt;"
+      style="width:100%;height:100%;border:0;"
+      allow="fullscreen"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock">
+    </xhtml:iframe>
+  </foreignObject>
+</svg>
