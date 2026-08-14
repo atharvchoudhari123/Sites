@@ -5,19 +5,70 @@
      height="100%"
      viewBox="0 0 1920 1080">
 
+  <rect width="1920" height="1080" fill="black"/>
+
   <foreignObject x="0" y="0" width="1920" height="1080">
 
     <xhtml:iframe
-      srcdoc="&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;body style=&quot;margin:0;background:black;color:white;font-family:Arial;text-align:center;&quot;&gt;
-&lt;h1&gt;SVG SRCdoc works!&lt;/h1&gt;
-&lt;p&gt;This is running inside the SVG.&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;"
-      style="width:100%;height:100%;border:0;">
+      id="gameFrame"
+      style="width:100%;height:100%;border:0;display:block;background:black;"
+      allow="autoplay; fullscreen; gamepad; pointer-lock"
+      allowfullscreen="true"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock">
     </xhtml:iframe>
 
   </foreignObject>
+
+  <script><![CDATA[
+    (async function () {
+
+      const frame = document.getElementById("gameFrame");
+
+      const htmlURL =
+        "https://raw.githubusercontent.com/atharvchoudhari123/Sites/refs/heads/main/games/sources/AlienHonmind.html";
+
+      try {
+        const response = await fetch(htmlURL, {
+          cache: "no-cache"
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "HTTP " + response.status + " while loading game HTML"
+          );
+        }
+
+        const html = await response.text();
+
+        frame.srcdoc = html;
+
+      } catch (error) {
+
+        console.error("Failed to load Alien Hominid:", error);
+
+        frame.srcdoc = `
+          <!DOCTYPE html>
+          <html>
+          <body style="
+            margin:0;
+            background:black;
+            color:white;
+            font-family:Arial,sans-serif;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            height:100vh;
+          ">
+            <div style="text-align:center">
+              <h2>Failed to load Alien Hominid</h2>
+              <p>${String(error).replace(/</g, "&lt;")}</p>
+            </div>
+          </body>
+          </html>
+        `;
+      }
+
+    })();
+  ]]></script>
 
 </svg>
