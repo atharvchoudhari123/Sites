@@ -1,6 +1,6 @@
 # Fern
 
-A web-based language learning application.
+A proxy unblocker with a Collection of games
 
 ## 🚀 Run Fern
 
