@@ -8,11 +8,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve all Fern files, including assets/, xttc/, and service-worker files.
+// Static files
 app.use(express.static(__dirname));
 
-// Serve fern.html at the root.
-app.get("/", (req, res) => {
+// Fern application routes
+app.get("/gqqn/*splat", (req, res) => {
+    res.sendFile(path.join(__dirname, "fern.html"));
+});
+
+// Other SPA routes
+app.get("*splat", (req, res) => {
     res.sendFile(path.join(__dirname, "fern.html"));
 });
 
