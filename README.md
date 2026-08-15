@@ -15,7 +15,7 @@ cd sites/fern
 ```bash
 npm install
 ```
-### 34. Start Server
+### 4. Start Server
 ```bash
 npm start
 ```
