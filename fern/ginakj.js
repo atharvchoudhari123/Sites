@@ -1,8 +1,10 @@
 const swBase = self.location.pathname.replace(/ginakj\.js$/, '')
 
-importScripts(swBase + 'djm/zhfh.bundle.js')
-importScripts(swBase + 'djm/zhfh.config.js')
-importScripts(__uv$config.sw || swBase + 'djm/zhfh.sw.js')
+const swBase = self.location.pathname.replace(/ginakj\.js$/, '')
+
+importScripts(swBase + 'assets/djm/zhfh.bundle.js')
+importScripts(swBase + 'assets/djm/zhfh.config.js')
+importScripts(__uv$config.sw || swBase + 'assets/djm/zhfh.sw.js')
 
 importScripts(swBase + 'xttc/eakd.all.js')
 
