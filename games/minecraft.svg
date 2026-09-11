@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="100%"
+    height="100%"
+    viewBox="0 0 1280 720"
+>
+    <foreignObject x="0" y="0" width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml"
+             style="width:100%;height:100%;background:#000;">
+            <canvas
+                id="display"
+                width="1280"
+                height="720"
+                style="width:100%;height:100%;display:block;"
+            ></canvas>
+        </div>
+    </foreignObject>
+
+    <script href="sources/minecraft-script-1.js"></script>
+    <script href="sources/minecraft-script-2.js"></script>
+</svg>
