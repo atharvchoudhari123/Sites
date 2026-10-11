@@ -1,65 +1,66 @@
 {
-  "name": "nova-pc",
-  "version": "0.1.0",
-  "description": "Nova PC QEMU front end for Windows and Linux virtual machines",
-  "homepage": "https://github.com/atharvchoudhari123/Sites/tree/main/PC",
-  "main": "main.cjs",
-  "author": {
-    "name": "Nova PC contributors",
-    "email": "atharvchoudhari123@users.noreply.github.com"
-  },
-  "license": "MIT",
-  "scripts": {
-    "start": "electron .",
-    "dist": "electron-builder",
-    "dist:mac": "electron-builder --mac dmg",
-    "dist:win": "electron-builder --win nsis",
-    "dist:linux": "electron-builder --linux deb"
-  },
-  "devDependencies": {
-    "electron": "^38.2.0",
-    "electron-builder": "^26.0.12"
-  },
-  "build": {
-    "appId": "dev.novapc.desktop",
-    "productName": "Nova PC",
-    "directories": {
-      "output": "dist",
-      "buildResources": "build"
-    },
-    "files": [
-      "main.cjs",
-      "preload.cjs",
-      "package.json"
-    ],
-    "mac": {
-      "target": [
-        "dmg"
-      ],
-      "category": "public.app-category.utilities"
-    },
-    "win": {
-      "target": [
-        "nsis"
-      ],
-      "artifactName": "Nova-PC-Setup-${version}.${ext}"
-    },
-    "linux": {
-      "target": [
-        "deb"
-      ],
-      "category": "Utility",
-      "maintainer": "atharvchoudhari123@users.noreply.github.com",
-      "artifactName": "nova-pc-${version}.${ext}"
-    },
-    "extraResources": [
-      {
-        "from": "../web",
-        "to": "web",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ]
-  }
+"name": "nova-pc",
+"version": "0.1.0",
+"description": "Nova PC QEMU front end for Windows and Linux virtual machines",
+"homepage": "https://github.com/atharvchoudhari123/Sites/tree/main/PC",
+"main": "main.cjs",
+"author": {
+"name": "Nova PC contributors",
+"email": "atharvchoudhari123@users.noreply.github.com"
+},
+"license": "MIT",
+"scripts": {
+"start": "electron .",
+"dist": "electron-builder",
+"dist": "electron-builder --mac dmg",
+"dist": "electron-builder --win nsis",
+"dist": "electron-builder --linux deb"
+},
+"devDependencies": {
+"electron": "^38.2.0",
+"electron-builder": "^26.0.12"
+},
+"build": {
+"appId": "dev.novapc.desktop",
+"productName": "Nova PC",
+"directories": {
+"output": "dist",
+"buildResources": "build"
+},
+"files": [
+"main.cjs",
+"preload.cjs",
+"package.json"
+],
+"mac": {
+"target": [
+"dmg"
+],
+"category": "public.app-category.utilities",
+"identity": null
+},
+"win": {
+"target": [
+"nsis"
+],
+"artifactName": "Nova-PC-Setup-${version}.${ext}"
+},
+"linux": {
+"target": [
+"deb"
+],
+"category": "Utility",
+"maintainer": "atharvchoudhari123@users.noreply.github.com",
+"artifactName": "nova-pc-${version}.${ext}"
+},
+"extraResources": [
+{
+"from": "../web",
+"to": "web",
+"filter": [
+"**/*"
+]
+}
+]
+}
 }
