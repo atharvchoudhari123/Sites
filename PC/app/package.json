@@ -2,8 +2,12 @@
   "name": "nova-pc",
   "version": "0.1.0",
   "description": "Nova PC QEMU front end for Windows and Linux virtual machines",
+  "homepage": "https://github.com/atharvchoudhari123/Sites/tree/main/PC",
   "main": "main.cjs",
-  "author": "Nova PC contributors",
+  "author": {
+    "name": "Nova PC contributors",
+    "email": "atharvchoudhari123@users.noreply.github.com"
+  },
   "license": "MIT",
   "scripts": {
     "start": "electron .",
@@ -45,6 +49,7 @@
         "deb"
       ],
       "category": "Utility",
+      "maintainer": "atharvchoudhari123@users.noreply.github.com",
       "artifactName": "nova-pc-${version}.${ext}"
     },
     "extraResources": [
