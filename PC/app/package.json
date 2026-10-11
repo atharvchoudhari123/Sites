@@ -1,0 +1,28 @@
+{
+  "name": "nova-pc",
+  "version": "0.1.0",
+  "description": "Nova PC QEMU front end for Windows and Linux virtual machines",
+  "main": "main.cjs",
+  "author": "Nova PC contributors",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac dmg",
+    "dist:win": "electron-builder --win nsis",
+    "dist:linux": "electron-builder --linux deb"
+  },
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "dev.novapc.desktop",
+    "productName": "Nova PC",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.cjs", "preload.cjs", "../web/**/*", "package.json"],
+    "mac": { "target": ["dmg"], "category": "public.app-category.utilities" },
+    "win": { "target": ["nsis"], "artifactName": "Nova-PC-Setup-${version}.${ext}" },
+    "linux": { "target": ["deb"], "category": "Utility", "artifactName": "nova-pc-${version}.${ext}" }
+  }
+}

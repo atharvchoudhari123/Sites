@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090d16"><title>Nova PC — Virtual Machine</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">N</span><span>nova<span class="muted"> pc</span></span></div>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav active" data-tab="machine">▦ <span>Virtual machine</span></button>
+    <button class="nav" data-tab="resources">◴ <span>Resources</span></button>
+    <button class="nav" data-tab="help">ⓘ <span>Setup & help</span></button>
+    <div class="side-bottom"><span class="status-dot"></span><span id="connectionText">Browser preview</span></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><div class="eyebrow">NOVA VIRTUALIZATION</div><h1 id="pageTitle">Your virtual PC</h1></div><div class="top-actions"><span class="pill" id="runtimePill">Preview mode</span><button class="icon-btn" id="refreshBtn" title="Refresh system info">↻</button></div></header>
+    <section class="panel page active" id="machinePage">
+      <div class="hero"><div><div class="eyebrow">VIRTUAL MACHINE</div><h2>A PC of your own.</h2><p>Configure a Windows or Linux guest, then run it with QEMU on this computer.</p></div><div class="hero-icon">▣</div></div>
+      <div class="notice" id="runtimeNotice"><strong>Browser preview</strong><span>Open the Nova PC desktop app to launch a real VM. This website alone cannot run a native QEMU process.</span></div>
+      <div class="section-heading"><div><h3>Installation media</h3><p>Select an ISO image for the operating system you want to install.</p></div><span class="step">01</span></div>
+      <div class="iso-box"><div class="iso-icon">⇧</div><div class="iso-info"><strong id="isoName">No ISO selected</strong><small id="isoDetail">Windows or Linux installer image (.iso)</small></div><button class="btn secondary" id="chooseIso">Choose ISO</button><input type="file" id="isoInput" accept=".iso,application/x-iso9660-image" hidden></div>
+      <div class="section-heading"><div><h3>Machine profile</h3><p>These values configure a VM in the desktop app.</p></div><span class="step">02</span></div>
+      <div class="config-grid">
+        <label class="setting"><span class="setting-title">Virtual CPU cores <b id="cpuValue">2 cores</b></span><input id="cpu" type="range" min="1" max="8" value="2"><span class="range-labels"><small>1 core</small><small id="cpuMax">8 cores max</small></span></label>
+        <label class="setting"><span class="setting-title">Memory <b id="ramValue">4 GB</b></span><input id="ram" type="range" min="1" max="8" value="4"><span class="range-labels"><small>1 GB</small><small id="ramMax">8 GB max</small></span></label>
+        <label class="setting"><span class="setting-title">Virtual disk <b id="diskValue">32 GB</b></span><input id="disk" type="range" min="16" max="128" step="8" value="32"><span class="range-labels"><small>16 GB</small><small>128 GB</small></span></label>
+      </div>
+      <div class="action-row"><div><strong id="vmStatus">VM is stopped</strong><p id="statusDetail">Ready to configure. Install QEMU to start a real guest OS.</p></div><button class="btn primary" id="startVm">▶ &nbsp; Start virtual PC</button></div>
+      <div class="log" id="log" aria-live="polite">Nova PC initialized.</div>
+    </section>
+    <section class="panel page" id="resourcesPage">
+      <div class="section-heading"><div><h2>Host & VM resources</h2><p>Host capabilities exposed by this operating system or browser.</p></div></div>
+      <div class="resource-grid">
+        <div class="resource-card"><span class="resource-icon">CPU</span><small>Logical processors</small><strong id="hostCpu">Checking…</strong><p>Maximum virtual core setting is capped for safety.</p></div>
+        <div class="resource-card"><span class="resource-icon">RAM</span><small>Memory information</small><strong id="hostRam">Checking…</strong><p>Browser memory estimates can be unavailable or rounded.</p></div>
+        <div class="resource-card"><span class="resource-icon">GPU</span><small>Graphics API</small><strong id="hostGpu">Checking…</strong><p>GPU detection does not mean the VM has GPU passthrough.</p></div>
+        <div class="resource-card"><span class="resource-icon">DISK</span><small>Browser storage</small><strong id="hostDisk">Checking…</strong><p>This is browser storage, not the VM's virtual disk.</p></div>
+      </div>
+      <div class="notice"><strong>Resource safety</strong><span>Nova limits the VM's configured CPU and RAM. A virtual disk grows as data is written and may use less space than its maximum size. Keep enough memory and disk space for your host OS.</span></div>
+      <button class="btn secondary" id="saveProfile">Save profile on this device</button>
+    </section>
+    <section class="panel page" id="helpPage">
+      <div class="section-heading"><div><h2>Setup & help</h2><p>Nova PC uses QEMU for real virtualization. Install it separately on the host machine.</p></div></div>
+      <div class="help-list">
+        <article><span class="help-number">1</span><div><h3>Install QEMU</h3><p><b>macOS:</b> <code>brew install qemu</code></p><p><b>Windows:</b> install a trusted QEMU Windows build and add its bin folder to PATH.</p><p><b>Debian / Ubuntu:</b> <code>sudo apt install qemu-system-x86 qemu-utils</code></p></div></article>
+        <article><span class="help-number">2</span><div><h3>Choose an OS ISO</h3><p>Use installation media you are authorized to use. Windows activation and licensing remain your responsibility. Linux distributions often provide free installation images.</p></div></article>
+        <article><span class="help-number">3</span><div><h3>Create and run a VM</h3><p>Choose CPU, RAM and virtual disk size, then start the VM in the desktop app. The guest OS installs into the virtual disk, not onto your Mac's physical drive.</p></div></article>
+      </div>
+      <div class="notice"><strong>Current limitations</strong><span>CPU and RAM sliders configure the guest VM; they do not reserve resources while the VM is stopped. GPU passthrough is not included. Browser-only mode is a dashboard preview, not a QEMU emulator.</span></div>
+    </section>
+    <footer>Nova PC · QEMU front-end prototype <span>Windows + Linux guests · macOS / Windows / Linux hosts</span></footer>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body></html>

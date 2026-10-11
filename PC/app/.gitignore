@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.dmg
+*.exe
+*.deb
+*.qcow2
+*.iso

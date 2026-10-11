@@ -1,0 +1,44 @@
+name: Build Nova PC installers
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'nova-pc-v*'
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: mac
+            artifact: dmg
+          - os: windows-latest
+            target: win
+            artifact: exe
+          - os: ubuntu-latest
+            target: linux
+            artifact: deb
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: PC/app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: PC/app/package.json
+      - name: Install dependencies
+        run: npm install
+      - name: Build installer
+        run: npm run dist:${{ matrix.target }}
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nova-pc-${{ matrix.artifact }}
+          path: PC/app/dist/*
+          if-no-files-found: error

@@ -1,0 +1,1 @@
+const {contextBridge,ipcRenderer}=require('electron');contextBridge.exposeInMainWorld('nova',{getHostInfo:()=>ipcRenderer.invoke('host-info'),chooseIso:()=>ipcRenderer.invoke('choose-iso'),startVm:config=>ipcRenderer.invoke('start-vm',config),stopVm:()=>ipcRenderer.invoke('stop-vm'),onVmStatus:callback=>ipcRenderer.on('vm-status',(_event,status)=>callback(status))});
