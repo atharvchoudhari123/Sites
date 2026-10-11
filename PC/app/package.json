@@ -19,10 +19,42 @@
   "build": {
     "appId": "dev.novapc.desktop",
     "productName": "Nova PC",
-    "directories": { "output": "dist", "buildResources": "build" },
-    "files": ["main.cjs", "preload.cjs", "../web/**/*", "package.json"],
-    "mac": { "target": ["dmg"], "category": "public.app-category.utilities" },
-    "win": { "target": ["nsis"], "artifactName": "Nova-PC-Setup-${version}.${ext}" },
-    "linux": { "target": ["deb"], "category": "Utility", "artifactName": "nova-pc-${version}.${ext}" }
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "Nova-PC-Setup-${version}.${ext}"
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ],
+      "category": "Utility",
+      "artifactName": "nova-pc-${version}.${ext}"
+    },
+    "extraResources": [
+      {
+        "from": "../web",
+        "to": "web",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
   }
 }
