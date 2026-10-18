@@ -40,13 +40,13 @@ jobs:
               name = f"part-{index:03d}.js"
               encoded = base64.b64encode(source[offset:offset + chunk_size]).decode("ascii")
               (out / name).write_text(
-                  "window.__MC_PARTS = window.__MC_PARTS || [];\\n"
-                  f'window.__MC_PARTS[{index}] = "{encoded}";\\n',
+                  "window.__MC_PARTS = window.__MC_PARTS || [];\n"
+                  f'window.__MC_PARTS[{index}] = "{encoded}";\n',
                   encoding="utf-8"
               )
               files.append(name)
           Path("mc/manifest.json").write_text(
-              json.dumps({"files": files, "sourceBytes": len(source)}, indent=2) + "\\n",
+              json.dumps({"files": files, "sourceBytes": len(source)}, indent=2) + "\n",
               encoding="utf-8"
           )
           print(f"Split {len(source)} bytes into {len(files)} JS files.")
