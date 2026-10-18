@@ -24,6 +24,9 @@ p{color:#cbd5e1;line-height:1.5}button{border:0;border-radius:8px;padding:12px 1
  const status=document.getElementById('status');
  const start=document.getElementById('start');
  const base='https://cdn.jsdelivr.net/gh/atharvchoudhari123/Sites@main/mc/';
+ const yieldToBrowser=()=>('scheduler' in window && typeof scheduler.yield==='function')
+   ? scheduler.yield()
+   : new Promise(resolve=>setTimeout(resolve,0));
  try{
    const response=await fetch(base+'manifest.json');
    if(!response.ok) throw new Error('Manifest request failed: '+response.status);
@@ -32,30 +35,44 @@ p{color:#cbd5e1;line-height:1.5}button{border:0;border-radius:8px;padding:12px 1
    start.hidden=false;
    start.onclick=async()=>{
      start.disabled=true;
-     window.__MC_PARTS=[];
-     const parts=window.__MC_PARTS;
-     for(let i=0;i<manifest.files.length;i++){
-       status.textContent='Loading client part '+(i+1)+' of '+manifest.files.length+'…';
-       await new Promise((resolve,reject)=>{
-         const script=document.createElement('script');
-         script.src=base+'parts/'+manifest.files[i];
-         script.onload=resolve;
-         script.onerror=()=>reject(new Error('Failed to load '+manifest.files[i]));
-         document.head.appendChild(script);
-       });
+     try{
+       window.__MC_PARTS=[];
+       const parts=window.__MC_PARTS;
+       for(let i=0;i<manifest.files.length;i++){
+         status.textContent='Loading client part '+(i+1)+' of '+manifest.files.length+'…';
+         await yieldToBrowser();
+         await new Promise((resolve,reject)=>{
+           const script=document.createElement('script');
+           script.src=base+'parts/'+manifest.files[i];
+           script.onload=resolve;
+           script.onerror=()=>reject(new Error('Failed to load '+manifest.files[i]));
+           document.head.appendChild(script);
+         });
+       }
+       status.textContent='Preparing game data…';
+       const total=parts.reduce((n,p)=>n+p.length,0);
+       const binary=new Uint8Array(total);
+       let offset=0;
+       for(let i=0;i<parts.length;i++){
+         status.textContent='Decoding part '+(i+1)+' of '+parts.length+'…';
+         const raw=atob(parts[i]);
+         // Copy in small batches so the preview/browser can process UI updates.
+         for(let startAt=0;startAt<raw.length;startAt+=65536){
+           const endAt=Math.min(startAt+65536,raw.length);
+           for(let j=startAt;j<endAt;j++) binary[offset++]=raw.charCodeAt(j);
+           await yieldToBrowser();
+         }
+       }
+       status.textContent='Opening game…';
+       await yieldToBrowser();
+       const html=new TextDecoder().decode(binary);
+       document.open();
+       document.write(html);
+       document.close();
+     }catch(error){
+       status.textContent='Could not start the client: '+error.message;
+       start.disabled=false;
      }
-     status.textContent='Reassembling game…';
-     const total=parts.reduce((n,p)=>n+p.length,0);
-     const binary=new Uint8Array(total);
-     let offset=0;
-     for(const part of parts){
-       const raw=atob(part);
-       for(let j=0;j<raw.length;j++) binary[offset++]=raw.charCodeAt(j);
-     }
-     const html=new TextDecoder().decode(binary);
-     document.open();
-     document.write(html);
-     document.close();
    };
  }catch(error){
    status.textContent='Could not load the client: '+error.message+'\nRun the “Split Minecraft 26.3 HTML for jsDelivr” workflow in your repository Actions tab, then wait for it to finish.';
