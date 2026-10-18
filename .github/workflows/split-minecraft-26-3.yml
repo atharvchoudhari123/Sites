@@ -1,0 +1,61 @@
+name: Split Minecraft 26.3 HTML for jsDelivr
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  split-client:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Download upstream single-file client
+        run: |
+          curl -fL --retry 3 --retry-delay 2 \
+            "https://github.com/joeymavv/26.3-JM/releases/download/v26.3-jm.1/26.3-fixed.html" \
+            -o /tmp/minecraft-client.html
+          ls -lh /tmp/minecraft-client.html
+
+      - name: Split client into jsDelivr-sized JavaScript parts
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64, json, shutil
+          source = Path("/tmp/minecraft-client.html").read_bytes()
+          out = Path("mc/parts")
+          if out.exists():
+              shutil.rmtree(out)
+          out.mkdir(parents=True)
+          chunk_size = 8 * 1024 * 1024
+          files = []
+          for offset in range(0, len(source), chunk_size):
+              index = offset // chunk_size
+              name = f"part-{index:03d}.js"
+              encoded = base64.b64encode(source[offset:offset + chunk_size]).decode("ascii")
+              (out / name).write_text(
+                  "window.__MC_PARTS = window.__MC_PARTS || [];\\n"
+                  f'window.__MC_PARTS[{index}] = "{encoded}";\\n',
+                  encoding="utf-8"
+              )
+              files.append(name)
+          Path("mc/manifest.json").write_text(
+              json.dumps({"files": files, "sourceBytes": len(source)}, indent=2) + "\\n",
+              encoding="utf-8"
+          )
+          print(f"Split {len(source)} bytes into {len(files)} JS files.")
+          PY
+
+      - name: Commit generated parts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mc/index.html mc/manifest.json mc/parts
+          git commit -m "Split Minecraft 26.3 client into jsDelivr parts" || exit 0
+          git push origin HEAD:main
